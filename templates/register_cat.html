@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main-container">
+    <h2>Регистрация нового котика</h2>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    {% if success %}
+    <div class="alert-success">
+        Кот добавлен!
+    </div>
+    {% endif %}
+
+    <div class="form-container">
+        <form method="POST" action="{{ url_for('register_cat') }}">
+            {{ form.hidden_tag() }}
+
+            <div class="form-group">
+                {{ form.name.label(class="form-label") }}
+                {{ form.name(class="form-control", placeholder="Мурзик") }}
+                {% for error in form.name.errors %}
+                <div class="error-message">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.age.label(class="form-label") }}
+                {{ form.age(class="form-control", type="number", min="0", max="25", placeholder="2") }}
+                {% for error in form.age.errors %}
+                <div class="error-message">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.breed.label(class="form-label") }}
+                {{ form.breed(class="form-control") }}
+                {% for error in form.breed.errors %}
+                <div class="error-message">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.features.label(class="form-label") }}
+                {{ form.features(class="form-control", placeholder="Пушистый, любит играть с мячиком") }}
+                {% for error in form.features.errors %}
+                <div class="error-message">{{ error }}</div>
+                {% endfor %}
+            </div>
+             {{ form.submit(class="btn auth-btn") }}
+            <div class="form-actions">
+                <a href="{{ url_for('my_shelter') }}" class="back-btn">← Вернуться</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+/*<style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap');
+
+    body {
+        font-family: 'Montserrat', sans-serif;
+        background-color: #f5f5f5;
+    }
+
+    .main-container {
+        max-width: 800px;
+        margin: 30px auto;
+        padding: 30px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #333;
+        font-weight: 600;
+    }
+
+    .form-container {
+        padding: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 25px;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #2c3e50;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    textarea.form-control {
+        min-height: 100px;
+        resize: vertical;
+    }
+
+    .form-control:focus {
+        border-color: #3498db;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(52,152,219,0.2);
+    }
+
+    .error-message {
+        color: #e74c3c;
+        font-size: 0.9rem;
+        margin-top: 5px;
+    }
+
+    .form-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 30px;
+    }
+
+    .back-btn {
+        padding: 12px 25px;
+        background-color: #f8f9fa;
+        color: #2c3e50;
+        text-decoration: none;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 1rem;
+    }
+
+    .back-btn:hover {
+        background-color: #e9ecef;
+        border-color: #adb5bd;
+    }
+
+    .alert-success {
+        padding: 15px;
+        margin-bottom: 25px;
+        background-color: #d4edda;
+        color: #155724;
+        border-radius: 8px;
+        text-align: center;
+        border: 1px solid #c3e6cb;
+    }
+
+    @media (max-width: 768px) {
+        .main-container {
+            padding: 20px;
+            margin: 20px;
+        }
+
+        .form-actions {
+            flex-direction: column-reverse;
+            gap: 15px;
+        }
+
+        .back-btn {
+            width: 100%;
+            text-align: center;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .form-control {
+            padding: 10px 12px;
+        }
+
+        textarea.form-control {
+            min-height: 80px;
+        }
+
+        .back-btn {
+            padding: 10px 15px;
+        }
+    }
+</style>*/
+{% endblock %}

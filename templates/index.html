@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+</head>
+<body>
+<div class="container">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <h1>We Are Cats</h1>
+
+    <div class="content">
+        <p>Мы - котики, очень милые и добрые! Нам нужна твоя помощь, давай дружить?</p>
+
+        <div class="buttons">
+            <a href="{{ url_for('login') }}" class="btn">Вход</a>
+            <a href="{{ url_for('register') }}" class="btn">Регистрация</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+{% endblock %}

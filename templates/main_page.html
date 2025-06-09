@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main-container">
+    <h2>Добро пожаловать{% if current_user.is_authenticated %}, {{ current_user.login }}{% endif %}!</h2>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <div class="menu-grid">
+        <a href="{{ url_for('view_cats') }}" class="menu-card">
+            <div class="card-content">
+                <h3>Просмотреть список котиков</h3>
+                <p>Посмотрите всех наших пушистых друзей</p>
+            </div>
+        </a>
+
+        <a href="{{ url_for('view_shelters') }}" class="menu-card">
+            <div class="card-content">
+                <h3>Просмотреть список приютов</h3>
+                <p>Найдите приюты в вашем городе</p>
+            </div>
+        </a>
+
+        <a href="{{ url_for('my_shelter') }}" class="menu-card">
+            <div class="card-content">
+                <h3>Мой приют</h3>
+                <p>Управление вашим приютом</p>
+            </div>
+        </a>
+
+        {% if current_user.is_authenticated and current_user.login == 'admin' %}
+        <a href="{{ url_for('view_shelter_applications') }}" class="menu-card admin-card">
+            <div class="card-content">
+                <h3>Просмотреть заявки на добавление приюта</h3>
+                <p>Панель администратора</p>
+            </div>
+        </a>
+        {% endif %}
+    </div>
+
+    {% if current_user.is_authenticated %}
+    <div class="logout-container">
+        <a href="{{ url_for('logout') }}" class="logout-btn">Выйти</a>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap');
+
+    body {
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    .main-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        position: relative;
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #333;
+        font-weight: 600;
+    }
+
+    .menu-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        margin-bottom: 40px;
+    }
+
+    .menu-card {
+        background: #fff;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .menu-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .card-content h3 {
+        margin-top: 0;
+        color: #2c3e50;
+        font-weight: 500;
+    }
+
+    .card-content p {
+        color: #7f8c8d;
+        margin-bottom: 0;
+    }
+
+    .admin-card {
+        border-top: 3px solid #e74c3c;
+    }
+
+    .logout-container {
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    .logout-btn {
+        display: inline-block;
+        padding: 10px 25px;
+        background-color: #f8f9fa;
+        color: #e74c3c;
+        text-decoration: none;
+        border: 1px solid #e74c3c;
+        border-radius: 5px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .logout-btn:hover {
+        background-color: #e74c3c;
+        color: white;
+    }
+
+    @media (max-width: 768px) {
+        .menu-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}

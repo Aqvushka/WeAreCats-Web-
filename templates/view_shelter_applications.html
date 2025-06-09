@@ -1,0 +1,221 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main-container">
+    <h2>Заявки</h2>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <div class="cats-table-container">
+        <table class="cats-table">
+            <thead>
+                <tr>
+                    <th>Название приюта</th>
+                    <th>Номер телефона</th>
+                    <th>Адрес</th>
+                    <th>ID владельца</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for shelter in shelters %}
+                <tr>
+                    <td>{{ shelter.name }}</td>
+                    <td>{{ shelter.phone }}</td>
+                    <td>{{ shelter.address }}</td>
+                    <td>{{ shelter.user_id }}</td>
+                    <td class="actions-cell">
+                        <a href="/add_shelter/{{shelter.id | int}}" class="add-btn">Подтвердить</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="navigation-buttons">
+        <a href="{{ url_for('main_page') }}" class="back-btn">← На главную</a>
+    </div>
+</div>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap');
+
+    body {
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    .main-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #333;
+        font-weight: 600;
+    }
+
+    .back-btn {
+        display: inline-block;
+        padding: 8px 16px;
+        background-color: #f8f9fa;
+        color: #2c3e50;
+        text-decoration: none;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .navigation-buttons {
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .back-btn:hover {
+        background-color: #e9ecef;
+        border-color: #adb5bd;
+    }
+
+    .cats-table-container {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        padding: 20px;
+        overflow-x: auto;
+    }
+
+    .cats-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .cats-table th,
+    .cats-table td {
+        padding: 15px;
+        text-align: left;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .cats-table th {
+        background-color: #f8f9fa;
+        font-weight: 600;
+        color: #2c3e50;
+    }
+
+    .cats-table tr:hover {
+        background-color: #f5f5f5;
+    }
+
+    .actions-cell {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .adopt-btn {
+        padding: 8px 16px;
+        background-color: #e74c3c;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .delete-btn {
+        padding: 8px 16px;
+        background-color: #6c757d;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .adopt-btn:hover {
+        background-color: #c0392b;
+        transform: translateY(-2px);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .delete-btn:hover {
+        background-color: #5a6268;
+        transform: translateY(-2px);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    @media (max-width: 768px) {
+        .cats-table th,
+        .cats-table td {
+            padding: 10px;
+            font-size: 0.9rem;
+        }
+
+        .adopt-btn, .delete-btn {
+            padding: 6px 12px;
+            font-size: 0.8rem;
+        }
+
+        .actions-cell {
+            flex-direction: column;
+            gap: 5px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .cats-table-container {
+            padding: 10px;
+        }
+
+        .back-btn {
+            padding: 6px 12px;
+            font-size: 0.9rem;
+        }
+    }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const adoptButtons = document.querySelectorAll('.adopt-btn');
+    const deleteButtons = document.querySelectorAll('.delete-btn');
+
+    adoptButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const catId = this.getAttribute('data-cat-id');
+            if (confirm('Вы уверены, что хотите подвтердить приют?')) {
+                alert('Успех!');
+            }
+        });
+    });
+
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const catId = this.getAttribute('data-cat-id');
+            if (confirm('Вы уверены, что хотите добавить приют?')) {
+                fetch(`/delete_cat/${catId}`, {
+                    method: 'DELETE',
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Приют подвтерждён!');
+                        location.reload();
+                    } else {
+                        alert('Ошибка при подтверждении приюта');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Произошла ошибка при подтверждении приюта');
+                });
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

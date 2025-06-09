@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main-container">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    {% if is_shelter == 0 %}
+        <h2>Ожидайте подтверждения Вашего приюта</h2>
+    {% else %}
+        <h2>Информация о приюте</h2>
+        <div class="shelter-info-container">
+            <div class="shelter-info">
+                <p><strong>Название:</strong> {{ my_shelter.name }}</p>
+                <p><strong>Телефон:</strong> {{ my_shelter.phone }}</p>
+                <p><strong>Адрес:</strong> {{ my_shelter.address }}</p>
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="navigation-buttons">
+        <a href="{{ url_for('main_page') }}" class="back-btn">← На главную</a>
+        {% if is_shelter == 1 %}
+            <div class="shelter-actions">
+                <a href="{{ url_for('register_cat') }}" class="action-btn">Добавить котика</a>
+                <a href="{{ url_for('view_our_cats') }}" class="action-btn">Просмотреть наших котиков</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap');
+
+    body {
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    .main-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 30px;
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #333;
+        font-weight: 600;
+    }
+
+    .shelter-info-container {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        padding: 25px;
+        margin-bottom: 30px;
+    }
+
+    .shelter-info {
+        font-size: 1.1rem;
+        line-height: 1.7;
+    }
+
+    .shelter-info p {
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .shelter-info p:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+
+    .navigation-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .back-btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #f8f9fa;
+        color: #2c3e50;
+        text-decoration: none;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        text-align: center;
+    }
+
+    .shelter-actions {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    .action-btn {
+        flex: 1;
+        min-width: 200px;
+        padding: 10px 20px;
+        background-color: #f8f9fa;
+        color: #2c3e50;
+        text-decoration: none;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        text-align: center;
+    }
+
+    .back-btn:hover, .action-btn:hover {
+        background-color: #e9ecef;
+        border-color: #adb5bd;
+    }
+
+    @media (max-width: 768px) {
+        .main-container {
+            padding: 20px;
+        }
+
+        .shelter-actions {
+            flex-direction: column;
+        }
+
+        .action-btn {
+            width: 100%;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .shelter-info-container {
+            padding: 15px;
+        }
+
+        .back-btn, .action-btn {
+            padding: 8px 16px;
+        }
+    }
+
+{% endblock %}
